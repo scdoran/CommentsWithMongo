@@ -81,7 +81,7 @@ app.get("/scrape", function(req, res) {
     });
   });
   // Tell the browser that we finished scraping the text
-  res.redirect("/");
+  res.redirect("articles.html");
 });
 
 // This will get the articles we scraped from the mongoDB
@@ -132,6 +132,9 @@ app.post("/articles/:id", function(req, res) {
 });
 
 // Listen on port 3000
-app.listen(3000, function() {
+
+var PORT = process.env.PORT || 3000;
+
+app.listen(PORT, function() {
   console.log("App running on port 3000!");
 });
