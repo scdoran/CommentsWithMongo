@@ -2,15 +2,16 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
+var handlebars = require("express-handlebars");
+
 // Requiring our Note and Article models
-var Comment = require("./models/Comment.js");
-var Article = require("./models/Article.js");
+var Comment = require("./models/comment.js");
+var Article = require("./models/article.js");
 // Our scraping tools
 var request = require("request");
 var cheerio = require("cheerio");
 // Set mongoose to leverage built in JavaScript ES6 Promises
 mongoose.Promise = Promise;
-
 
 // Initialize Express
 var app = express();
@@ -24,7 +25,7 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("./public"));
 
 // Database configuration with mongoose
-mongoose.connect("mongodb://localhost/");
+mongoose.connect("mongodb://localhost/scraper");
 var db = mongoose.connection;
 
 // Show any mongoose errors
@@ -45,10 +46,10 @@ app.set("view engine", "handlebars");
 // Routes
 // ======
 
-// A GET request to scrape the echojs website
-app.get("/scrape", function(req, res) {
+// A GET request to scrape the npr website
+app.get("/", function(req, res) {
   // First, we grab the body of the html with request
-  request("http://www.echojs.com/", function(error, response, html) {
+  request("http://www.npr.org/sections/alltechconsidered/", function(error, response, html) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(html);
     // Now, we grab every h2 within an article tag, and do the following:
@@ -80,7 +81,7 @@ app.get("/scrape", function(req, res) {
     });
   });
   // Tell the browser that we finished scraping the text
-  res.send("Scrape Complete");
+  res.redirect("/");
 });
 
 // This will get the articles we scraped from the mongoDB
@@ -109,7 +110,7 @@ app.get("/articles/:id", function(req, res) {
 
 });
 
-// Create a new note or replace an existing note
+// Create a new comment or replace an existing comment
 app.post("/articles/:id", function(req, res) {
 
   var newComment = new Comment(req.body);

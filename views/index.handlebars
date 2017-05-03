@@ -1,4 +1,4 @@
-<h1></h1>
+<h1>NPR News</h1>
 <hr>
 <div id="wrapper">
 	<div class="col">
@@ -14,7 +14,7 @@
 					</form>
 
 					<form action="/{{this.id}}?_method=DELETE" method="POST">
-						<input type="hidden" name="delete" value="true">
+						<input type="hidden" name="delete">
 						<button type="submit" class="btn btn-danger">X</button>
 					</form>
 				</li>
@@ -23,23 +23,4 @@
 		</ul>
 	</div>
 
-</div>
-
-<div id="add">
-
-	<h2>Add a Burger!</h2>
-
-	<form class="create-update-form" action="/" method="POST">
-		<div class="form-group">
-			<label>Burger Name:</label>
-			<input type="text" name="burger_name">
-
-			<form action="/{{this.id}}?_method="POST">
-				<input type="hidden" name="comment">
-				<button id="burger" type="submit">Add Burger</button>
-			</form>
-		</div>
-
-		
-	</form>
 </div>
